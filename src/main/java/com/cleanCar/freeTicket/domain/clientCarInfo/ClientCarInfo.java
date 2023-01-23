@@ -1,6 +1,6 @@
-package com.cleanCar.freeTicket.clientCarInfo;
+package com.cleanCar.freeTicket.domain.clientCarInfo;
 
-import com.cleanCar.freeTicket.ticket.CleanCarTicket;
+import com.cleanCar.freeTicket.domain.ticket.CleanCarTicket;
 import com.cleanCar.freeTicket.utils.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;

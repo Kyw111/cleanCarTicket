@@ -1,7 +1,7 @@
-package com.cleanCar.freeTicket.ticket;
+package com.cleanCar.freeTicket.domain.ticket;
 
-import com.cleanCar.freeTicket.clientCarInfo.ClientCarInfo;
-import com.cleanCar.freeTicket.gasStation.GasStationInfo;
+import com.cleanCar.freeTicket.domain.clientCarInfo.ClientCarInfo;
+import com.cleanCar.freeTicket.domain.gasStation.GasStationInfo;
 import com.cleanCar.freeTicket.utils.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -28,9 +28,6 @@ public class CleanCarTicket extends BaseEntity {
     @Column(name = "expired_dt", columnDefinition = "DATETIME COMMENT '무료세차권 사용 기한 일자'")
     private LocalDate expiredDt;
 
-    @Column(name = "clean_car_price", columnDefinition = "INT(11) COMMENT '세차권 이용료'")
-    private int cleanCarPrice;
-
     @ManyToOne
     @JoinColumn(name = "client_car_info_id")
     private ClientCarInfo clientCarInfo;
@@ -39,9 +36,8 @@ public class CleanCarTicket extends BaseEntity {
     private GasStationInfo gasStationInfo;
 
     @Builder
-    public CleanCarTicket(LocalDate expiredDt, int cleanCarPrice, ClientCarInfo clientCarInfo) {
+    public CleanCarTicket(LocalDate expiredDt, ClientCarInfo clientCarInfo) {
         this.expiredDt = expiredDt;
-        this.cleanCarPrice = cleanCarPrice;
         this.clientCarInfo = clientCarInfo;
     }
 
