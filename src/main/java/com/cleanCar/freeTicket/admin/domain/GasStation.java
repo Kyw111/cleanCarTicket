@@ -34,17 +34,25 @@ public class GasStation extends BaseEntity {
     @Column(name = "gas_station_address", columnDefinition = "VARCHAR(255) COMMENT '주유소 주소'")
     private String gasStationAddress;
 
+    @Column(name = "X", columnDefinition = "VARCHAR(20) COMMENT '경도'")
+    private String longX;
+
+    @Column(name = "Y", columnDefinition = "VARCHAR(20) COMMENT '위도'")
+    private String latY;
+
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "gasStation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CleanCarType> cleanCarTypeList = new ArrayList<>();
 
 
     @Builder
-    public GasStation(String gasStationName, String gasStationAddress, List<CleanCarType> cleanCarTypeList) {
+    public GasStation(String gasStationName, String gasStationAddress, String longX, String latY) {
         this.gasStationName = gasStationName;
         this.gasStationAddress = gasStationAddress;
-        this.cleanCarTypeList = cleanCarTypeList;
+        this.longX = longX;
+        this.latY = latY;
     }
+
 
     public void setCleanCarTypeList(List<CleanCarType> cleanCarTypeList) {
         cleanCarTypeList.stream().forEach(cleanCarTypeInfo -> {

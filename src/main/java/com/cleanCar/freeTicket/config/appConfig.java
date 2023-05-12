@@ -1,6 +1,8 @@
 package com.cleanCar.freeTicket.config;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.json.simple.parser.JSONParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,5 +18,10 @@ public class appConfig {
     @Bean
     public JPAQueryFactory queryFactory() {
         return new JPAQueryFactory(em);
+    }
+
+    @Bean
+    public JSONParser jsonParser() {
+        return new JSONParser();
     }
 }
