@@ -31,7 +31,7 @@ public class CleanCarType extends BaseEntity {
     private int price;
 
     @JoinColumn(name = "gas_station_id")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GasStation gasStation;
 
     @Builder

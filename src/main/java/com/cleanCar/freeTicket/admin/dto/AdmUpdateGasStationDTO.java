@@ -1,12 +1,11 @@
 package com.cleanCar.freeTicket.admin.dto;
 
 /**
- * 관리자 - 주유소 정보 저장(등록) DTO
+ * 관리자 - 주유소 정보 수정 DTO
  */
-public record AdmSaveGasStationDTO(
-
+public record AdmUpdateGasStationDTO(
+        Long gasStationId,
         String gasStationName,
         String gasStationAddress
-
 ) {
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <h2>웰컴페이지 입니다.</h2>
+    <br>
+    <div>
+        <p></p>
+    </div>
+
+</body>
+
+<script>
+
+<!--    fetch("http://localhost:8080/gas-station")-->
+<!--    .then(response => response.json())-->
+<!--    .then((data) => console.log(data));-->
+
+    fetch("http://localhost:8080/gas-station")
+    .then(response => response.json())
+    .then((data) => {
+<!--        console.log(data);-->
+
+        let result = data;
+        console.log(result);
+        var id = result.gasStationId;
+        console.log(id);
+
+    });
+
+</script>
+</html>
