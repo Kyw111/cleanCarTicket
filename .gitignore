@@ -5,6 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 Constant.java
+GasStationDetailMap.html
 
 ### STS ###
 .apt_generated
