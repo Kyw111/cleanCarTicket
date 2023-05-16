@@ -7,30 +7,12 @@
 <body>
 
     <h2>웰컴페이지 입니다.</h2>
-    <br>
+
     <div>
-        <p></p>
+        <button type="button" onclick="location.href='login'">로그인</button>
+        <button type="button">회원가입</button>
     </div>
 
 </body>
 
-<script>
-
-<!--    fetch("http://localhost:8080/gas-station")-->
-<!--    .then(response => response.json())-->
-<!--    .then((data) => console.log(data));-->
-
-    fetch("http://localhost:8080/gas-station")
-    .then(response => response.json())
-    .then((data) => {
-<!--        console.log(data);-->
-
-        let result = data;
-        console.log(result);
-        var id = result.gasStationId;
-        console.log(id);
-
-    });
-
-</script>
 </html>

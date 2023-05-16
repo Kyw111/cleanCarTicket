@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="./js/gasStation.js"></script>
+    <title>관리자 페이지</title>
+</head>
+<body>
+
+    <h3>나의 주유소 목록</h3>
+
+    <div>
+        <ul id="gas-station-list"></ul>
+    </div>
+
+
+<script>
+    const reqUrl = "http://localhost:8080/gas-station";
+    fetch(reqUrl)
+    .then(response => response.json())
+    .then((data) => {
+        var content = data.content;
+        const ulTag = document.getElementById("gas-station-list");
+
+        for(var i = 0; i < content.length; i++){
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+
+            a.setAttribute('id','gas-station');
+            a.setAttribute('name', content[i].gasStationId);
+            a.setAttribute('href', 'http://localhost:8080/map/'+content[i].gasStationId);
+<!--            a.setAttribute('onclick', 'goToDetail(this.name); giveInputNum(this.name);');-->
+
+            a.append(content[i].gasStationName);
+            li.append(a);
+            ulTag.append(li);
+        }
+    });
+</script>
+
+</body>
+</html>

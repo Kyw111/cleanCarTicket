@@ -3,14 +3,11 @@ package com.cleanCar.freeTicket.admin.api;
 import com.cleanCar.freeTicket.admin.dto.AdmSaveGasStationDTO;
 import com.cleanCar.freeTicket.admin.dto.AdmUpdateGasStationDTO;
 import com.cleanCar.freeTicket.admin.service.AdmGasStationService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 /**
