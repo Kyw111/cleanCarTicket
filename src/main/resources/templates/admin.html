@@ -13,8 +13,22 @@
         <ul id="gas-station-list"></ul>
     </div>
 
+    <br>
+    <form>
+        <div class="mb-3">
+            <label for="gas-station-name" class="col-form-label">주유소명</label>
+            <input type="text" class="form-control" id="gas-station-name">
+        </div>
+        <div class="mb-3">
+            <label for="gas-station-address" class="col-form-label">주유소 주소</label>
+            <textarea class="form-control" id="gas-station-address"></textarea>
+        </div>
+    </form>
+    <button type="button" class="btn btn-sm btn-outline-primary" id="save-gas-station-btn">추가하기</button>
+
 
 <script>
+
     const reqUrl = "http://localhost:8080/gas-station";
     fetch(reqUrl)
     .then(response => response.json())
@@ -29,13 +43,40 @@
             a.setAttribute('id','gas-station');
             a.setAttribute('name', content[i].gasStationId);
             a.setAttribute('href', 'http://localhost:8080/map/'+content[i].gasStationId);
-<!--            a.setAttribute('onclick', 'goToDetail(this.name); giveInputNum(this.name);');-->
 
             a.append(content[i].gasStationName);
             li.append(a);
             ulTag.append(li);
         }
     });
+
+    const createBtn = document.getElementById('save-gas-station-btn');
+    createBtn.addEventListener('click', () => {
+
+    const postContent = {
+        gasStationName : document.getElementById('gas-station-name').value,
+        gasStationAddress : document.getElementById('gas-station-address').value
+    };
+
+    const list = document.getElementById('gas-station-list');
+    const newLi = document.createElement("li");
+    const newA = document.createElement("a");
+
+    const postReqUrl = "http://localhost:8080/gas-station";
+    fetch(postReqUrl, {
+            method : "POST",
+            body : JSON.stringify(postContent),
+            headers : {
+                "Content-Type" : "application/json"
+            }
+        })
+        .then(
+            newA.append(postContent.gasStationName),
+            newLi.append(newA),
+            list.appendChild(newLi)
+        );
+    });
+
 </script>
 
 </body>

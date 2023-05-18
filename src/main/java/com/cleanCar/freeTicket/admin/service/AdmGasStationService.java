@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface AdmGasStationService {
 
-    void saveGasStation(AdmSaveGasStationDTO saveGasStationDTO);
+    String saveGasStation(AdmSaveGasStationDTO saveGasStationDTO);
 
     void updateGasStation(AdmUpdateGasStationDTO updateGasStationDTO);
 

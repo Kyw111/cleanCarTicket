@@ -49,7 +49,7 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
      */
     @Transactional
     @Override
-    public void saveGasStation(AdmSaveGasStationDTO saveGasStationDTO) {
+    public String saveGasStation(AdmSaveGasStationDTO saveGasStationDTO) {
 
         String kakaoMapJsonData = getXYByKaKaoMapAPI(saveGasStationDTO.gasStationAddress());
 
@@ -77,9 +77,11 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
                     .build();
             admGasStationRepository.save(gasStation);
 
+            return roadAddress;
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**

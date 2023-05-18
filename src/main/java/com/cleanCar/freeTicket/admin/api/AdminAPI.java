@@ -27,8 +27,8 @@ public class AdminAPI {
      */
     @PostMapping
     public ResponseEntity saveGasStation(@RequestBody AdmSaveGasStationDTO admSaveGasStationDTO) {
-        gasStationService.saveGasStation(admSaveGasStationDTO);
-        return ResponseEntity.ok().body("주유소 정보 등록(저장) 완료");
+        String responseAddress = gasStationService.saveGasStation(admSaveGasStationDTO);
+        return ResponseEntity.ok().body(responseAddress);
     }
 
     /**
