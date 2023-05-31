@@ -1,10 +1,7 @@
 package com.cleanCar.freeTicket.admin.service.impl;
 
 import com.cleanCar.freeTicket.admin.domain.GasStation;
-import com.cleanCar.freeTicket.admin.dto.AdmSaveGasStationDTO;
-import com.cleanCar.freeTicket.admin.dto.AdmUpdateGasStationDTO;
-import com.cleanCar.freeTicket.admin.dto.GasStationDetailResponseDTO;
-import com.cleanCar.freeTicket.admin.dto.GasStationListResponseDTO;
+import com.cleanCar.freeTicket.admin.dto.*;
 import com.cleanCar.freeTicket.admin.repository.AdmGasStationRepository;
 import com.cleanCar.freeTicket.admin.service.AdmGasStationService;
 import com.cleanCar.freeTicket.utils.Constant;
@@ -49,7 +46,7 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
      */
     @Transactional
     @Override
-    public String saveGasStation(AdmSaveGasStationDTO saveGasStationDTO) {
+    public AdmSaveGasStationResponse saveGasStation(AdmSaveGasStationDTO saveGasStationDTO) {
 
         String kakaoMapJsonData = getXYByKaKaoMapAPI(saveGasStationDTO.gasStationAddress());
 
@@ -77,7 +74,13 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
                     .build();
             admGasStationRepository.save(gasStation);
 
-            return roadAddress;
+            AdmSaveGasStationResponse response = AdmSaveGasStationResponse.builder()
+                    .gasStationId(gasStation.getGasStationId())
+                    .gasStationName(gasStation.getGasStationName())
+                    .gasStationAddress(gasStation.getGasStationAddress())
+                    .build();
+
+            return response;
         } catch (ParseException e) {
             e.printStackTrace();
         }

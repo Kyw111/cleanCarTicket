@@ -1,6 +1,7 @@
 package com.cleanCar.freeTicket.admin.api;
 
 import com.cleanCar.freeTicket.admin.dto.AdmSaveGasStationDTO;
+import com.cleanCar.freeTicket.admin.dto.AdmSaveGasStationResponse;
 import com.cleanCar.freeTicket.admin.dto.AdmUpdateGasStationDTO;
 import com.cleanCar.freeTicket.admin.service.AdmGasStationService;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,8 @@ public class AdminAPI {
      */
     @PostMapping
     public ResponseEntity saveGasStation(@RequestBody AdmSaveGasStationDTO admSaveGasStationDTO) {
-        String responseAddress = gasStationService.saveGasStation(admSaveGasStationDTO);
-        return ResponseEntity.ok().body(responseAddress);
+        AdmSaveGasStationResponse response = gasStationService.saveGasStation(admSaveGasStationDTO);
+        return ResponseEntity.ok().body(response);
     }
 
     /**
