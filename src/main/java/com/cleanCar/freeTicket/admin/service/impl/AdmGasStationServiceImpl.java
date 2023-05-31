@@ -1,7 +1,13 @@
 package com.cleanCar.freeTicket.admin.service.impl;
 
+import com.cleanCar.freeTicket.admin.domain.CleanCarType;
 import com.cleanCar.freeTicket.admin.domain.GasStation;
-import com.cleanCar.freeTicket.admin.dto.*;
+import com.cleanCar.freeTicket.admin.dto.station.*;
+import com.cleanCar.freeTicket.admin.dto.type.AdmSaveCleanCarTypeDTO;
+import com.cleanCar.freeTicket.admin.dto.type.AdmSaveCleanCarTypeResponse;
+import com.cleanCar.freeTicket.admin.dto.type.AdmUpdateCleanCarTypeDTO;
+import com.cleanCar.freeTicket.admin.dto.type.CleanCarTypeListResponseDTO;
+import com.cleanCar.freeTicket.admin.repository.AdmCleanCarTypeRepository;
 import com.cleanCar.freeTicket.admin.repository.AdmGasStationRepository;
 import com.cleanCar.freeTicket.admin.service.AdmGasStationService;
 import com.cleanCar.freeTicket.utils.Constant;
@@ -19,6 +25,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+import static com.cleanCar.freeTicket.utils.Constant.NO_CLEAN_CAR_TYPE_MSG;
 import static com.cleanCar.freeTicket.utils.Constant.NO_GAS_STATION_MSG;
 
 /**
@@ -29,6 +36,7 @@ import static com.cleanCar.freeTicket.utils.Constant.NO_GAS_STATION_MSG;
 public class AdmGasStationServiceImpl implements AdmGasStationService {
 
     private final AdmGasStationRepository admGasStationRepository;
+    private final AdmCleanCarTypeRepository admCleanCarTypeRepository;
 
     private final JSONParser jsonParser;
 
@@ -58,11 +66,6 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
             String x = address.get("x").toString();
             String y = address.get("y").toString();
             String roadAddress = address.get("address_name").toString();
-
-            System.out.println("!!! " + jsonObj);
-            System.out.println("!!! " + address);
-            System.out.println("!!! roadAddress " + roadAddress);
-            System.out.println("!!! saveGasStationDTO.address " + saveGasStationDTO.gasStationAddress());
 
             //todo : JSON 데이터 파싱 후 도로명, 지번 주소 모두 저장시킬지 결정해야함
 
@@ -124,21 +127,91 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
         admGasStationRepository.deleteGasStations(gasStationIds);
     }
 
+    /**
+     * 관리자 - 주유소 정보 상세 조회
+     * @param gasStationId
+     * @return
+     */
     @Transactional(readOnly = true)
     @Override
     public GasStationDetailResponseDTO detailGasStation(Long gasStationId) {
         return admGasStationRepository.detailGasStation(gasStationId);
     }
 
+    /**
+     * 관리자 - 주유소 정보 목록 조회
+     * @param pageable
+     * @return
+     */
     @Transactional(readOnly = true)
     @Override
     public Page<GasStationListResponseDTO> gasStationList(Pageable pageable) {
         return admGasStationRepository.gasStationList(pageable);
     }
 
+    /**
+     * 관리자 - 세차 종류 및 가격 정보 저장
+     * @param admSaveCleanCarTypeDTO
+     * @return
+     */
+    @Transactional
+    @Override
+    public AdmSaveCleanCarTypeResponse saveCleanCarType(AdmSaveCleanCarTypeDTO admSaveCleanCarTypeDTO) {
+
+        GasStation gasStation = admGasStationRepository.findById(admSaveCleanCarTypeDTO.gasStationId())
+                .orElseThrow(() -> new IllegalArgumentException(NO_GAS_STATION_MSG));
+
+        CleanCarType cleanCarType = admSaveCleanCarTypeDTO.toEntity();
+        cleanCarType.setGasStation(gasStation);
+        CleanCarType savedCleanCarType = admCleanCarTypeRepository.save(cleanCarType);
+
+        AdmSaveCleanCarTypeResponse response = AdmSaveCleanCarTypeResponse.builder()
+                .cleanCarTypeId(savedCleanCarType.getCleanCarTypeId())
+                .cleanType(savedCleanCarType.getCleanType())
+                .price(savedCleanCarType.getPrice())
+                .defaultCondition(savedCleanCarType.getDefaultCondition())
+                .gasStationId(gasStation.getGasStationId())
+                .build();
+
+        return response;
+    }
 
     /**
-     * 카카오 지도 api - 좌표값(x,y), 주소 받아오기
+     * 관리자 - 세차 종류 및 가격 정보 수정
+     * @param admUpdateCleanCarTypeDTO
+     */
+    @Transactional
+    @Override
+    public void updateCleanCarType(AdmUpdateCleanCarTypeDTO admUpdateCleanCarTypeDTO) {
+        CleanCarType cleanCarType = admCleanCarTypeRepository.findById(admUpdateCleanCarTypeDTO.cleanCarTypeId())
+                .orElseThrow(() -> new IllegalArgumentException(NO_CLEAN_CAR_TYPE_MSG));
+        cleanCarType.updateCleanCarType(admUpdateCleanCarTypeDTO);
+
+    }
+
+    /**
+     * 관리자 - 세차 종류 및 가격 정보 삭제
+     * @param cleanCarTypeId
+     */
+    @Transactional
+    @Override
+    public void deleteCleanCarType(Long cleanCarTypeId) {
+        admCleanCarTypeRepository.deleteCarType(cleanCarTypeId);
+    }
+
+    /**
+     * 관리자 - 세차 종류 및 가격 정보 목록
+     * @return
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Page<CleanCarTypeListResponseDTO> cleanCarTypeList(Pageable pageable) {
+        return admCleanCarTypeRepository.cleanCarTypeList(pageable);
+    }
+
+
+    /**
+     * 카카오 지도 api - 좌표값(x,y), 주소 받아오기 ( 주유소 저장에서 사용 )
      * @param inputAddress
      * @return
      */

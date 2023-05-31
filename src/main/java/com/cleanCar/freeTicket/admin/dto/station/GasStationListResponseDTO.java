@@ -1,4 +1,4 @@
-package com.cleanCar.freeTicket.admin.dto;
+package com.cleanCar.freeTicket.admin.dto.station;
 
 import com.querydsl.core.annotations.QueryProjection;
 

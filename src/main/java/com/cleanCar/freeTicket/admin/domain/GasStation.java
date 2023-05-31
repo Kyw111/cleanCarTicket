@@ -1,6 +1,5 @@
 package com.cleanCar.freeTicket.admin.domain;
 
-import com.cleanCar.freeTicket.admin.dto.AdmUpdateGasStationDTO;
 import com.cleanCar.freeTicket.utils.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;

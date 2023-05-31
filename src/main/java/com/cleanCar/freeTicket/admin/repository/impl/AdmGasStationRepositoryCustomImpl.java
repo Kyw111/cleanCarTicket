@@ -1,7 +1,7 @@
 package com.cleanCar.freeTicket.admin.repository.impl;
 
-import com.cleanCar.freeTicket.admin.dto.GasStationDetailResponseDTO;
-import com.cleanCar.freeTicket.admin.dto.GasStationListResponseDTO;
+import com.cleanCar.freeTicket.admin.dto.station.GasStationDetailResponseDTO;
+import com.cleanCar.freeTicket.admin.dto.station.GasStationListResponseDTO;
 import com.cleanCar.freeTicket.admin.repository.AdmGasStationRepositoryCustom;
 import com.cleanCar.freeTicket.utils.enums.DelYn;
 import com.cleanCar.freeTicket.utils.enums.UseYn;

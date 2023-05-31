@@ -1,7 +1,7 @@
 package com.cleanCar.freeTicket.admin.repository;
 
-import com.cleanCar.freeTicket.admin.dto.GasStationDetailResponseDTO;
-import com.cleanCar.freeTicket.admin.dto.GasStationListResponseDTO;
+import com.cleanCar.freeTicket.admin.dto.station.GasStationDetailResponseDTO;
+import com.cleanCar.freeTicket.admin.dto.station.GasStationListResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,8 +1,11 @@
 package com.cleanCar.freeTicket.admin.api;
 
-import com.cleanCar.freeTicket.admin.dto.AdmSaveGasStationDTO;
-import com.cleanCar.freeTicket.admin.dto.AdmSaveGasStationResponse;
-import com.cleanCar.freeTicket.admin.dto.AdmUpdateGasStationDTO;
+import com.cleanCar.freeTicket.admin.dto.station.AdmSaveGasStationDTO;
+import com.cleanCar.freeTicket.admin.dto.station.AdmSaveGasStationResponse;
+import com.cleanCar.freeTicket.admin.dto.station.AdmUpdateGasStationDTO;
+import com.cleanCar.freeTicket.admin.dto.type.AdmSaveCleanCarTypeDTO;
+import com.cleanCar.freeTicket.admin.dto.type.AdmSaveCleanCarTypeResponse;
+import com.cleanCar.freeTicket.admin.dto.type.AdmUpdateCleanCarTypeDTO;
 import com.cleanCar.freeTicket.admin.service.AdmGasStationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -73,4 +76,49 @@ public class AdminAPI {
     public ResponseEntity gasStationList(Pageable pageable) {
         return ResponseEntity.ok().body(gasStationService.gasStationList(pageable));
     }
+
+    /****** 이하 관리자 세차 종류 및 가격 정보 관련 API **********************************************************/
+
+    /**
+     * 관리자 - 세차 종류 및 가격 정보 저장(등록) API
+     * @param admSaveCleanCarTypeDTO
+     * @return
+     */
+    @PostMapping("/clean")
+    public ResponseEntity saveCleanCarType(@RequestBody AdmSaveCleanCarTypeDTO admSaveCleanCarTypeDTO) {
+        return ResponseEntity.ok().body(gasStationService.saveCleanCarType(admSaveCleanCarTypeDTO));
+    }
+
+    /**
+     * 관리자 - 세차 종류 및 가격 정보 수정 API
+     * @param admUpdateCleanCarTypeDTO
+     * @return
+     */
+    @PutMapping("/clean")
+    public ResponseEntity updateCleanCarType(@RequestBody AdmUpdateCleanCarTypeDTO admUpdateCleanCarTypeDTO) {
+        gasStationService.updateCleanCarType(admUpdateCleanCarTypeDTO);
+        return ResponseEntity.ok().body(null);
+    }
+
+    /**
+     * 관리자 - 세차 종류 및 가격 정보 삭제 API
+     * @param cleanCarTypeId
+     * @return
+     */
+    @DeleteMapping("/clean/{cleanCarTypeId}")
+    public ResponseEntity deleteCleanCarType(@PathVariable("cleanCarTypeId") Long cleanCarTypeId) {
+        gasStationService.deleteCleanCarType(cleanCarTypeId);
+        return ResponseEntity.ok().body(null);
+    }
+
+    /**
+     * 관리자 - 세차 종류 및 가격 정보 목록 API
+     * @param pageable
+     * @return
+     */
+    @GetMapping("/clean")
+    public ResponseEntity cleanCarTypeList(Pageable pageable) {
+        return ResponseEntity.ok().body(gasStationService.cleanCarTypeList(pageable));
+    }
+
 }
