@@ -2,6 +2,7 @@ package com.cleanCar.freeTicket.admin.repository.impl;
 
 import com.cleanCar.freeTicket.admin.domain.QCleanCarType;
 import com.cleanCar.freeTicket.admin.domain.QGasStation;
+import com.cleanCar.freeTicket.admin.dto.type.AdmSaveCleanCarTypeResponse;
 import com.cleanCar.freeTicket.admin.dto.type.CleanCarTypeListResponseDTO;
 import com.cleanCar.freeTicket.admin.repository.AdmCleanCarTypeRepositoryCustom;
 import com.cleanCar.freeTicket.utils.enums.DelYn;
@@ -27,7 +28,7 @@ public class AdmCleanCarTypeRepositoryCustomImpl implements AdmCleanCarTypeRepos
 
     @Transactional(readOnly = true)
     @Override
-    public Page<CleanCarTypeListResponseDTO> cleanCarTypeList(Pageable pageable) {
+    public Page<CleanCarTypeListResponseDTO> cleanCarTypeList(Pageable pageable, Long gasStationId) {
 
         List<CleanCarTypeListResponseDTO> list = queryFactory.select(Projections.constructor(CleanCarTypeListResponseDTO.class,
                         cleanCarType.cleanCarTypeId.as("cleanCarTypeId"),
@@ -35,9 +36,12 @@ public class AdmCleanCarTypeRepositoryCustomImpl implements AdmCleanCarTypeRepos
                         cleanCarType.price.as("price"),
                         cleanCarType.defaultCondition.as("defaultCondition"),
                         cleanCarType.gasStation.gasStationId.as("gasStationId")
-                )).from(cleanCarType)
+                ))
+                .from(cleanCarType)
                 .where(cleanCarType.useYn.eq(UseYn.Y),
-                        cleanCarType.delYn.eq(DelYn.N))
+                        cleanCarType.delYn.eq(DelYn.N),
+                        cleanCarType.gasStation.gasStationId.eq(gasStationId)
+                        )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -47,11 +51,28 @@ public class AdmCleanCarTypeRepositoryCustomImpl implements AdmCleanCarTypeRepos
 
     @Transactional(readOnly = true)
     @Override
-    public void deleteCarType(Long cleanCarTypeId) {
+    public void deleteCleanCarType(Long cleanCarTypeId) {
         queryFactory.update(cleanCarType)
                 .set(cleanCarType.useYn, UseYn.N)
                 .set(cleanCarType.delYn, DelYn.Y)
                 .where(cleanCarType.cleanCarTypeId.eq(cleanCarTypeId))
                 .execute();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public AdmSaveCleanCarTypeResponse detailCleanCarType(Long cleanCarTypeId) {
+        return queryFactory.select(Projections.constructor(AdmSaveCleanCarTypeResponse.class,
+                        cleanCarType.cleanCarTypeId,
+                        cleanCarType.cleanType,
+                        cleanCarType.price,
+                        cleanCarType.defaultCondition,
+                        cleanCarType.gasStation.gasStationId
+                ))
+                .from(cleanCarType)
+                .where(cleanCarType.useYn.eq(UseYn.Y),
+                        cleanCarType.delYn.eq(DelYn.N),
+                        cleanCarType.cleanCarTypeId.eq(cleanCarTypeId))
+                .fetchOne();
     }
 }

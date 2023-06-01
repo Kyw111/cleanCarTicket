@@ -196,7 +196,7 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
     @Transactional
     @Override
     public void deleteCleanCarType(Long cleanCarTypeId) {
-        admCleanCarTypeRepository.deleteCarType(cleanCarTypeId);
+        admCleanCarTypeRepository.deleteCleanCarType(cleanCarTypeId);
     }
 
     /**
@@ -205,8 +205,14 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Page<CleanCarTypeListResponseDTO> cleanCarTypeList(Pageable pageable) {
-        return admCleanCarTypeRepository.cleanCarTypeList(pageable);
+    public Page<CleanCarTypeListResponseDTO> cleanCarTypeList(Pageable pageable, Long gasStationId) {
+        return admCleanCarTypeRepository.cleanCarTypeList(pageable, gasStationId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public AdmSaveCleanCarTypeResponse detailCleanCarType(Long cleanCarTypeId) {
+        return admCleanCarTypeRepository.detailCleanCarType(cleanCarTypeId);
     }
 
 

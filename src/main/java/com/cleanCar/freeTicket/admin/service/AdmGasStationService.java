@@ -33,6 +33,9 @@ public interface AdmGasStationService {
 
     void deleteCleanCarType(Long cleanCarTypeId);
 
-    Page<CleanCarTypeListResponseDTO> cleanCarTypeList(Pageable pageable);
+    Page<CleanCarTypeListResponseDTO> cleanCarTypeList(Pageable pageable, Long gasStationId);
+
+    AdmSaveCleanCarTypeResponse detailCleanCarType(Long cleanCarTypeId);
+
 
 }
