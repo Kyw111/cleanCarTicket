@@ -1,7 +1,5 @@
 package com.cleanCar.freeTicket.admin.repository.impl;
 
-import com.cleanCar.freeTicket.admin.domain.QCleanCarType;
-import com.cleanCar.freeTicket.admin.domain.QGasStation;
 import com.cleanCar.freeTicket.admin.dto.type.AdmSaveCleanCarTypeResponse;
 import com.cleanCar.freeTicket.admin.dto.type.CleanCarTypeListResponseDTO;
 import com.cleanCar.freeTicket.admin.repository.AdmCleanCarTypeRepositoryCustom;
