@@ -11,9 +11,7 @@
 
 <h3>나의 주유소 목록</h3>
 
-
-<ol class="list-group list-group-numbered" id="gas-station-list">
-</ol>
+<ol class="list-group list-group-numbered" id="gas-station-list"></ol>
 
 <button type="button" class="btn btn-outline-primary" onclick="openCreateForm()">추가</button>
 
@@ -29,15 +27,12 @@
     <button type="button" class="btn btn-primary" id="save-gas-station-btn" onclick="openCreateForm(); ">추가하기</button>
 </form>
 
-
-
 <script>
-
     const reqUrl = "http://localhost:8080/gas-station";
     fetch(reqUrl)
     .then(response => response.json())
     .then((data) => {
-        var content = data.content;
+        let content = data.content;
         const ulTag = document.getElementById("gas-station-list");
 
         for(var i = 0; i < content.length; i++){

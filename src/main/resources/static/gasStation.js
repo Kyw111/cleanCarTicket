@@ -6,4 +6,3 @@ function giveInputNum(num){
 //    console.log(num);
     return num;
 }
-
