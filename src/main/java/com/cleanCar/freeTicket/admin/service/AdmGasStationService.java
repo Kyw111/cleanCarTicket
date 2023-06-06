@@ -1,6 +1,5 @@
 package com.cleanCar.freeTicket.admin.service;
 
-import com.cleanCar.freeTicket.admin.domain.CleanCarType;
 import com.cleanCar.freeTicket.admin.dto.station.*;
 import com.cleanCar.freeTicket.admin.dto.type.AdmSaveCleanCarTypeDTO;
 import com.cleanCar.freeTicket.admin.dto.type.AdmSaveCleanCarTypeResponse;

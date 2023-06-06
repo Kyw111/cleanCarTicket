@@ -34,6 +34,9 @@ public class GasStation extends BaseEntity {
     @Column(name = "gas_station_address", columnDefinition = "VARCHAR(255) COMMENT '주유소 주소'")
     private String gasStationAddress;
 
+    @Column(name = "clean_car_free_period", columnDefinition = "INTEGER(5) COMMENT '무료 세차 가능 기한'")
+    private int cleanCarFreePeriod;
+
     @Column(name = "X", columnDefinition = "VARCHAR(20) COMMENT '경도'")
     private String longX;
 
@@ -44,11 +47,16 @@ public class GasStation extends BaseEntity {
     @OneToMany(mappedBy = "gasStation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CleanCarType> cleanCarTypeList = new ArrayList<>();
 
+    @LazyCollection(LazyCollectionOption.TRUE)
+    @OneToMany(mappedBy = "gasStation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClientPayInfo> clientPayInfoList = new ArrayList<>();
+
 
     @Builder
-    public GasStation(String gasStationName, String gasStationAddress, String longX, String latY) {
+    public GasStation(String gasStationName, String gasStationAddress, int cleanCarFreePeriod, String longX, String latY) {
         this.gasStationName = gasStationName;
         this.gasStationAddress = gasStationAddress;
+        this.cleanCarFreePeriod = cleanCarFreePeriod;
         this.longX = longX;
         this.latY = latY;
     }
@@ -59,10 +67,21 @@ public class GasStation extends BaseEntity {
         });
     }
 
+    public void setClientPayInfoList(List<ClientPayInfo> clientPayInfoList) {
+        clientPayInfoList.stream().forEach(clientPayInfo -> {
+            clientPayInfo.setGasStation(this);
+        });
+    }
+
+    public void setCleanCarFreePeriod(int cleanCarFreePeriod) {
+        this.cleanCarFreePeriod = cleanCarFreePeriod;
+    }
+
     // 관리자 - 주유소 정보 수정 API 에 사용
     public void updateGasStation(String gasStationName, String gasStationAddress, String longX, String latY) {
         this.gasStationName = gasStationName;
         this.gasStationAddress = gasStationAddress;
+        // todo : 무료사용기간 관련 로직 추가 개발 필요
         this.longX = longX;
         this.latY = latY;
     }
