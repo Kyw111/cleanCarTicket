@@ -22,16 +22,21 @@ public class ClientPayInfoServiceImpl implements ClientPayInfoService {
     private final ClientPayInfoRepository clientPayInfoRepository;
     private final AdmGasStationRepository admGasStationRepository;
 
+    private GasStation getGasStationEntity(Long gasStationId) {
+        return admGasStationRepository.findById(gasStationId)
+                .orElseThrow(() -> new IllegalArgumentException(NO_GAS_STATION_MSG));
+    }
+
     /**
      * 관리자 - 고객 주유 정보 저장
      */
     @Transactional
     @Override
     public void saveClientPayInfo(SaveClientPayInfoDTO saveClientPayInfoDTO) {
-        GasStation gasStation = admGasStationRepository.findById(saveClientPayInfoDTO.gasStationId())
-                .orElseThrow(() -> new IllegalArgumentException(NO_GAS_STATION_MSG));
-        ClientPayInfo clientPayInfo = saveClientPayInfoDTO.toEntity(gasStation.getCleanCarFreePeriod());
-        clientPayInfo.setGasStation(gasStation);
+        ClientPayInfo clientPayInfo = saveClientPayInfoDTO.toEntity(
+                getGasStationEntity(saveClientPayInfoDTO.gasStationId()).getCleanCarFreePeriod()
+        );
+        clientPayInfo.setGasStation(getGasStationEntity(saveClientPayInfoDTO.gasStationId()));
         clientPayInfoRepository.save(clientPayInfo);
     }
 

@@ -33,6 +33,7 @@ public class ClientPayInfoRepositoryCustomImpl implements ClientPayInfoRepositor
                         clientPayInfo.carNumber.as("carNumber"),
                         clientPayInfo.payOfGas.as("payOfGas"),
                         clientPayInfo.createdDt.as("createdDt"),
+                        clientPayInfo.expiredDt.as("expiredDt"),
                         clientPayInfo.gasStation.gasStationName.as("gasStationName")
                 ))
                 .from(clientPayInfo)
