@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
  */
 public record ClientPayInfoListDTO(
         Long clientPayInfoId,
-        Long gasStationId,
         String carNumber,
         int payOfGas,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -18,18 +17,19 @@ public record ClientPayInfoListDTO(
 
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime expiredDt,
+        Long gasStationId,
         String gasStationName
 
 ) {
     @QueryProjection
-    public ClientPayInfoListDTO(Long clientPayInfoId, Long gasStationId, String carNumber, int payOfGas,
-                                LocalDateTime createdDt, LocalDateTime expiredDt, String gasStationName) {
+    public ClientPayInfoListDTO(Long clientPayInfoId, String carNumber, int payOfGas, LocalDateTime createdDt,
+                                LocalDateTime expiredDt, Long gasStationId, String gasStationName) {
         this.clientPayInfoId = clientPayInfoId;
-        this.gasStationId = gasStationId;
         this.carNumber = carNumber;
         this.payOfGas = payOfGas;
         this.createdDt = createdDt;
         this.expiredDt = expiredDt;
+        this.gasStationId = gasStationId;
         this.gasStationName = gasStationName;
     }
 }

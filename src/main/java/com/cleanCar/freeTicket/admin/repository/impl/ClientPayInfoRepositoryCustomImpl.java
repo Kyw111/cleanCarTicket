@@ -13,6 +13,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.cleanCar.freeTicket.admin.domain.QClientPayInfo.clientPayInfo;
@@ -29,18 +30,20 @@ public class ClientPayInfoRepositoryCustomImpl implements ClientPayInfoRepositor
 
         List<ClientPayInfoListDTO> list = queryFactory.select(Projections.constructor(ClientPayInfoListDTO.class,
                         clientPayInfo.clientPayInfoId.as("clientPayInfoId"),
-                        clientPayInfo.gasStation.gasStationId.as("gasStationId"),
                         clientPayInfo.carNumber.as("carNumber"),
                         clientPayInfo.payOfGas.as("payOfGas"),
                         clientPayInfo.createdDt.as("createdDt"),
                         clientPayInfo.expiredDt.as("expiredDt"),
+                        clientPayInfo.gasStation.gasStationId.as("gasStationId"),
                         clientPayInfo.gasStation.gasStationName.as("gasStationName")
                 ))
                 .from(clientPayInfo)
                 .where(clientPayInfo.useYn.eq(UseYn.Y),
                         clientPayInfo.delYn.eq(DelYn.N),
                         clientPayInfo.gasStation.gasStationId.eq(gasStationId),
-                        clientPayInfo.carNumber.eq(carNumber))
+                        clientPayInfo.carNumber.eq(carNumber),
+                        clientPayInfo.createdDt.before(clientPayInfo.expiredDt),
+                        clientPayInfo.expiredDt.after(LocalDateTime.now())) // 유효기간이 현재 오늘 날짜일때 출력되지 않는 부분 수정개발 요함
                 .orderBy(clientPayInfo.createdDt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

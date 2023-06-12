@@ -1,5 +1,6 @@
 package com.cleanCar.freeTicket.admin.domain;
 
+import com.cleanCar.freeTicket.admin.dto.pay.UpdateClientPayInfoDTO;
 import com.cleanCar.freeTicket.utils.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -49,5 +50,11 @@ public class ClientPayInfo extends BaseEntity {
     public void setGasStation(GasStation gasStation) {
         this.gasStation = gasStation;
         gasStation.getClientPayInfoList().add(this);
+    }
+
+    // 고객 주유 정보 수정 API 에서 사용
+    public void updateClientPayInfo(UpdateClientPayInfoDTO updateClientPayInfoDTO) {
+        this.carNumber = updateClientPayInfoDTO.carNumber();
+        this.payOfGas = updateClientPayInfoDTO.payOfGas();
     }
 }

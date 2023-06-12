@@ -4,15 +4,18 @@ import com.cleanCar.freeTicket.admin.domain.ClientPayInfo;
 import com.cleanCar.freeTicket.admin.domain.GasStation;
 import com.cleanCar.freeTicket.admin.dto.pay.ClientPayInfoListDTO;
 import com.cleanCar.freeTicket.admin.dto.pay.SaveClientPayInfoDTO;
+import com.cleanCar.freeTicket.admin.dto.pay.UpdateClientPayInfoDTO;
 import com.cleanCar.freeTicket.admin.repository.AdmGasStationRepository;
 import com.cleanCar.freeTicket.admin.repository.ClientPayInfoRepository;
 import com.cleanCar.freeTicket.admin.service.ClientPayInfoService;
+import com.cleanCar.freeTicket.utils.Constant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.cleanCar.freeTicket.utils.Constant.NO_CLIENT_PAY_INFO_MSG;
 import static com.cleanCar.freeTicket.utils.Constant.NO_GAS_STATION_MSG;
 
 @Service
@@ -47,5 +50,16 @@ public class ClientPayInfoServiceImpl implements ClientPayInfoService {
     @Override
     public Page<ClientPayInfoListDTO> clientPayInfoList(Long gasStationId, String carNumber, Pageable pageable) {
         return clientPayInfoRepository.clientPayInfoList(gasStationId, carNumber, pageable);
+    }
+
+    /**
+     * 관리자 - 고객 주유 정보 수정
+     */
+    @Transactional
+    @Override
+    public void updateClientPayInfo(UpdateClientPayInfoDTO updateClientPayInfoDTO) {
+        ClientPayInfo clientPayInfo = clientPayInfoRepository.findById(updateClientPayInfoDTO.clientPayInfoId())
+                .orElseThrow(() -> new IllegalArgumentException(NO_CLIENT_PAY_INFO_MSG));
+        clientPayInfo.updateClientPayInfo(updateClientPayInfoDTO);
     }
 }
