@@ -38,18 +38,19 @@ public class AdmGasStationRepositoryCustomImpl implements AdmGasStationRepositor
     @Override
     public GasStationDetailResponseDTO detailGasStation(Long gasStationId) {
 
-        GasStationDetailResponseDTO gasStationDetailResponseDTO = queryFactory.select(Projections.constructor(GasStationDetailResponseDTO.class,
+        return queryFactory.select(Projections.constructor(GasStationDetailResponseDTO.class,
                         gasStation.gasStationId.as("gasStationId"),
                         gasStation.gasStationName.as("gasStationName"),
                         gasStation.gasStationAddress.as("gasStationAddress"),
                         gasStation.longX.as("longX"),
-                        gasStation.latY.as("latY")
-                )).from(gasStation)
+                        gasStation.latY.as("latY"),
+                        gasStation.cleanCarFreePeriod.as("cleanCarFreePeriod")
+                ))
+                .from(gasStation)
                 .where(gasStation.useYn.eq(UseYn.Y),
                         gasStation.delYn.eq(DelYn.N),
                         gasStation.gasStationId.eq(gasStationId))
                 .fetchOne();
-        return gasStationDetailResponseDTO;
     }
 
     @Transactional(readOnly = true)

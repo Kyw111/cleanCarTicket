@@ -6,6 +6,8 @@ package com.cleanCar.freeTicket.admin.dto.station;
 public record AdmUpdateGasStationDTO(
         Long gasStationId,
         String gasStationName,
-        String gasStationAddress
+        String gasStationAddress,
+        Integer cleanCarFreePeriod
+
 ) {
 }

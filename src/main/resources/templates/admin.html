@@ -17,12 +17,16 @@
 
 <form id="createForm" class="invisible">
     <div class="mb-3">
-    <label for="gas-station-name" class="col-form-label">주유소명</label>
-    <input type="text" class="form-control" id="gas-station-name">
-</div>
+        <label for="gas-station-name" class="col-form-label">주유소명</label>
+        <input type="text" class="form-control" id="gas-station-name">
+    </div>
     <div class="mb-3">
         <label for="gas-station-address" class="col-form-label">주유소 주소</label>
         <textarea class="form-control" id="gas-station-address"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="clean-Car-Free-Period" class="col-form-label">무료세차권 유효기간</label>
+        <textarea class="form-control" id="clean-Car-Free-Period"></textarea>
     </div>
     <button type="button" class="btn btn-primary" id="save-gas-station-btn" onclick="openCreateForm(); ">추가하기</button>
 </form>
@@ -63,7 +67,8 @@
 
     const postContent = {
         gasStationName : document.getElementById('gas-station-name').value,
-        gasStationAddress : document.getElementById('gas-station-address').value
+        gasStationAddress : document.getElementById('gas-station-address').value,
+        cleanCarFreePeriod : document.getElementById('clean-Car-Free-Period').value
     };
 
     const olTag = document.getElementById('gas-station-list');
@@ -94,6 +99,8 @@
             gasStationDiv.append(gasStationNameDiv),
             li.append(gasStationDiv),
             olTag.append(li)
+
+            if (data.cleanCarFreePeriod === 0) alert(`무료 세차권 이용 기간을 입력하지 않아 이용 기간이 ${data.cleanCarFreePeriod}일 로 설정되었습니다. 상세화면에서 수정할 수 있습니다.`)
         });
     });
 

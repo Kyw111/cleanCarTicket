@@ -28,8 +28,7 @@ public class AdminAPI {
      */
     @PostMapping
     public ResponseEntity saveGasStation(@RequestBody AdmSaveGasStationDTO admSaveGasStationDTO) {
-        AdmSaveGasStationResponse response = gasStationService.saveGasStation(admSaveGasStationDTO);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(gasStationService.saveGasStation(admSaveGasStationDTO));
     }
 
     /**

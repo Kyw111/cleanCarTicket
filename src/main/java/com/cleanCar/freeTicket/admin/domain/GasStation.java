@@ -78,11 +78,11 @@ public class GasStation extends BaseEntity {
     }
 
     // 관리자 - 주유소 정보 수정 API 에 사용
-    public void updateGasStation(String gasStationName, String gasStationAddress, String longX, String latY) {
+    public void updateGasStation(String gasStationName, String gasStationAddress, String longX, String latY, int cleanCarFreePeriod) {
         this.gasStationName = gasStationName;
         this.gasStationAddress = gasStationAddress;
-        // todo : 무료사용기간 관련 로직 추가 개발 필요
         this.longX = longX;
         this.latY = latY;
+        this.cleanCarFreePeriod = cleanCarFreePeriod;
     }
 }

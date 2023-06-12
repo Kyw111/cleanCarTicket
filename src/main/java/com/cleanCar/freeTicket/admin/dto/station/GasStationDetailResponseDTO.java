@@ -10,14 +10,18 @@ public record GasStationDetailResponseDTO(
         String gasStationName,
         String gasStationAddress,
         String longX,
-        String latY
+        String latY,
+        int cleanCarFreePeriod
+
 ) {
     @QueryProjection
-    public GasStationDetailResponseDTO(Long gasStationId, String gasStationName, String gasStationAddress, String longX, String latY) {
+    public GasStationDetailResponseDTO(Long gasStationId, String gasStationName, String gasStationAddress, String longX, String latY,
+                                       int cleanCarFreePeriod) {
         this.gasStationId = gasStationId;
         this.gasStationName = gasStationName;
         this.gasStationAddress = gasStationAddress;
         this.longX = longX;
         this.latY = latY;
+        this.cleanCarFreePeriod = cleanCarFreePeriod;
     }
 }

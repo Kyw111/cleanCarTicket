@@ -11,12 +11,14 @@ import lombok.Builder;
 public record AdmSaveGasStationResponse(
         Long gasStationId,
         String gasStationName,
-        String gasStationAddress
+        String gasStationAddress,
+        Integer cleanCarFreePeriod
 ) {
     @Builder
-    public AdmSaveGasStationResponse(Long gasStationId, String gasStationName, String gasStationAddress) {
+    public AdmSaveGasStationResponse(Long gasStationId, String gasStationName, String gasStationAddress, Integer cleanCarFreePeriod) {
         this.gasStationId = gasStationId;
         this.gasStationName = gasStationName;
         this.gasStationAddress = gasStationAddress;
+        this.cleanCarFreePeriod = cleanCarFreePeriod;
     }
 }

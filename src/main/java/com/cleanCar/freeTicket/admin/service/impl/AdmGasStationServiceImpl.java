@@ -72,6 +72,8 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
             GasStation gasStation = GasStation.builder()
                     .gasStationName(saveGasStationDTO.gasStationName())
                     .gasStationAddress(roadAddress)
+                    .cleanCarFreePeriod((saveGasStationDTO.cleanCarFreePeriod() == null) ?
+                            0 :saveGasStationDTO.cleanCarFreePeriod())
                     .longX(x)
                     .latY(y)
                     .build();
@@ -81,6 +83,7 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
                     .gasStationId(gasStation.getGasStationId())
                     .gasStationName(gasStation.getGasStationName())
                     .gasStationAddress(gasStation.getGasStationAddress())
+                    .cleanCarFreePeriod(gasStation.getCleanCarFreePeriod())
                     .build();
 
             return response;
@@ -110,7 +113,7 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
             String y = address.get("y").toString();
             String roadAddress = address.get("address_name").toString();
 
-            gasStation.updateGasStation(updateGasStationDTO.gasStationName(),roadAddress,x,y);
+            gasStation.updateGasStation(updateGasStationDTO.gasStationName(),roadAddress,x,y, updateGasStationDTO.cleanCarFreePeriod());
 
         } catch (ParseException e) {
             e.printStackTrace();
