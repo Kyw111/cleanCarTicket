@@ -1,4 +1,4 @@
-var station = {
+var admGasStation = {
     addGasStationInList () {
         const reqUrl = "http://localhost:8080/gas-station";
         fetch(reqUrl)
