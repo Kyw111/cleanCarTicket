@@ -60,49 +60,38 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
         String kakaoMapJsonData = getXYByKaKaoMapAPI(saveGasStationDTO.gasStationAddress());
 
         try {
-            JSONObject parse = (JSONObject) jsonParser.parse(kakaoMapJsonData);
-            JSONArray documents = (JSONArray) parse.get("documents");
-            JSONObject jsonObj = (JSONObject) documents.get(0);
-            JSONObject address = (JSONObject) jsonObj.get("address");
-            String x = address.get("x").toString();
-            String y = address.get("y").toString();
-            String roadAddress = address.get("address_name").toString();
+            GasStation gasStation = saveGasStation(
+                    saveGasStationDTO,
+                    parseJsonData(kakaoMapJsonData).get("x").toString(),
+                    parseJsonData(kakaoMapJsonData).get("y").toString(),
+                    parseJsonData(kakaoMapJsonData).get("address_name").toString()
+            );
 
-            //todo : JSON 데이터 파싱 후 도로명, 지번 주소 모두 저장시킬지 결정해야함
-
-            GasStation gasStation = GasStation.builder()
-                    .gasStationName(saveGasStationDTO.gasStationName())
-                    .gasStationAddress(roadAddress)
-                    .cleanCarFreePeriod((saveGasStationDTO.cleanCarFreePeriod() == null) ?
-                            0 : saveGasStationDTO.cleanCarFreePeriod())
-                    .longX(x)
-                    .latY(y)
-                    .build();
-            admGasStationRepository.save(gasStation);
-
-            AdmSaveGasStationResponse response = AdmSaveGasStationResponse.builder()
+            return AdmSaveGasStationResponse.builder()
                     .gasStationId(gasStation.getGasStationId())
                     .gasStationName(gasStation.getGasStationName())
                     .gasStationAddress(gasStation.getGasStationAddress())
                     .cleanCarFreePeriod(gasStation.getCleanCarFreePeriod())
                     .build();
-
-            return response;
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public String paringJsonData(String jsonData) throws ParseException {
-        JSONObject parse = (JSONObject) jsonParser.parse(jsonData);
-        JSONArray documents = (JSONArray) parse.get("documents");
-        JSONObject jsonObj = (JSONObject) documents.get(0);
-        JSONObject address = (JSONObject) jsonObj.get("address");
-        String x = address.get("x").toString();
-        String y = address.get("y").toString();
-        String roadAddress = address.get("address_name").toString();
-        return roadAddress;
+
+
+    private GasStation saveGasStation(AdmSaveGasStationDTO saveGasStationDTO, String x, String y, String roadAddress) {
+        GasStation gasStation = GasStation.builder()
+                .gasStationName(saveGasStationDTO.gasStationName())
+                .gasStationAddress(roadAddress)
+                .cleanCarFreePeriod((saveGasStationDTO.cleanCarFreePeriod() == null) ?
+                        0 : saveGasStationDTO.cleanCarFreePeriod())
+                .longX(x)
+                .latY(y)
+                .build();
+        admGasStationRepository.save(gasStation);
+        return gasStation;
     }
 
     /**
@@ -118,15 +107,13 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
         String kakaoMapJsonData = getXYByKaKaoMapAPI(updateGasStationDTO.gasStationAddress());
         
         try {
-            JSONObject parse = (JSONObject) jsonParser.parse(kakaoMapJsonData);
-            JSONArray documents = (JSONArray) parse.get("documents");
-            JSONObject jsonObj = (JSONObject) documents.get(0);
-            JSONObject address = (JSONObject) jsonObj.get("address");
-            String x = address.get("x").toString();
-            String y = address.get("y").toString();
-            String roadAddress = address.get("address_name").toString();
-
-            gasStation.updateGasStation(updateGasStationDTO.gasStationName(),roadAddress,x,y, updateGasStationDTO.cleanCarFreePeriod());
+            gasStation.updateGasStation(
+                    updateGasStationDTO.gasStationName(),
+                    parseJsonData(kakaoMapJsonData).get("address_name").toString(),
+                    parseJsonData(kakaoMapJsonData).get("x").toString(),
+                    parseJsonData(kakaoMapJsonData).get("y").toString(),
+                    updateGasStationDTO.cleanCarFreePeriod()
+            );
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -181,15 +168,13 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
         cleanCarType.setGasStation(gasStation);
         CleanCarType savedCleanCarType = admCleanCarTypeRepository.save(cleanCarType);
 
-        AdmSaveCleanCarTypeResponse response = AdmSaveCleanCarTypeResponse.builder()
+        return AdmSaveCleanCarTypeResponse.builder()
                 .cleanCarTypeId(savedCleanCarType.getCleanCarTypeId())
                 .cleanType(savedCleanCarType.getCleanType())
                 .price(savedCleanCarType.getPrice())
                 .defaultCondition(savedCleanCarType.getDefaultCondition())
                 .gasStationId(gasStation.getGasStationId())
                 .build();
-
-        return response;
     }
 
     /**
@@ -233,9 +218,7 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
 
 
     /**
-     * 카카오 지도 api - 좌표값(x,y), 주소 받아오기 ( 주유소 저장에서 사용 )
-     * @param inputAddress
-     * @return
+     * 카카오 지도 api - 좌표값(x,y), 주소 받아오기 ( 주유소 저장, 수정에서 사용 )
      */
     private String getXYByKaKaoMapAPI(String inputAddress) {
         String result = webClient.get()
@@ -245,6 +228,17 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
                 .bodyToMono(String.class)
                 .block();
         return result;
+    }
+
+    /**
+     * JsonData 파싱 관련 메소드 - 주유소 저장, 수정에서 사용
+     */
+    private JSONObject parseJsonData(String kakaoMapJsonData) throws ParseException {
+        JSONObject parse = (JSONObject) jsonParser.parse(kakaoMapJsonData);
+        JSONArray documents = (JSONArray) parse.get("documents");
+        JSONObject jsonObj = (JSONObject) documents.get(0);
+        JSONObject address = (JSONObject) jsonObj.get("address");
+        return address;
     }
 
 }

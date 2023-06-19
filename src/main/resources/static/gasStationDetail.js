@@ -5,6 +5,7 @@ const gasStationId = path.substring(5);
 var GasStationDetail = {
     detailGasStation() {
 
+        // 주유소 상세 조회
         const reqUrl = "http://localhost:8080/gas-station/"+gasStationId;
         fetch(reqUrl)
             .then(response => response.json())
@@ -38,6 +39,7 @@ var GasStationDetail = {
                 marker.setMap(map);
             });
 
+        // 세차 종류 및 가격정보 목록 조회
         const url = "http://localhost:8080/gas-station/clean/"+gasStationId;
         fetch(url)
             .then(response => response.json())
@@ -101,6 +103,7 @@ var GasStationDetail = {
                 });
         })
 
+        // 세차 종류 및 가격정보 수정
         const updateCompleteBtn = document.getElementById("update-complete-btn-in-modal");
         updateCompleteBtn.addEventListener('click', () => {
 

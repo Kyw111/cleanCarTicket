@@ -49,7 +49,7 @@ public class ClientPayInfoRepositoryCustomImpl implements ClientPayInfoRepositor
                         clientPayInfo.gasStation.gasStationId.eq(gasStationId),
                         clientPayInfo.carNumber.eq(carNumber),
                         clientPayInfo.createdDt.before(clientPayInfo.expiredDt),
-                        clientPayInfo.expiredDt.after(LocalDateTime.now())) // 유효기간이 현재 오늘 날짜일때 출력되지 않는 부분 수정개발 요함
+                        clientPayInfo.expiredDt.after(LocalDateTime.now()))
                 .orderBy(clientPayInfo.createdDt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
