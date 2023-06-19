@@ -1,7 +1,6 @@
 package com.cleanCar.freeTicket.admin.api;
 
 import com.cleanCar.freeTicket.admin.dto.station.AdmSaveGasStationDTO;
-import com.cleanCar.freeTicket.admin.dto.station.AdmSaveGasStationResponse;
 import com.cleanCar.freeTicket.admin.dto.station.AdmUpdateGasStationDTO;
 import com.cleanCar.freeTicket.admin.dto.type.AdmSaveCleanCarTypeDTO;
 import com.cleanCar.freeTicket.admin.dto.type.AdmUpdateCleanCarTypeDTO;
@@ -12,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.cleanCar.freeTicket.utils.Constant.*;
 
 /**
  * 관리자 API
@@ -37,7 +38,7 @@ public class AdminAPI {
     @PutMapping
     public ResponseEntity updateGasStation(@RequestBody AdmUpdateGasStationDTO admUpdateGasStationDTO) {
         gasStationService.updateGasStation(admUpdateGasStationDTO);
-        return ResponseEntity.ok().body("주유소 정보 수정 완료");
+        return ResponseEntity.ok().body(UPDATE_GAS_STATION_MSG);
     }
 
     /**
@@ -46,7 +47,7 @@ public class AdminAPI {
     @DeleteMapping("/{gasStationIds}")
     public ResponseEntity deleteGasStation(@PathVariable("gasStationIds") List<Long> gasStationIds) {
         gasStationService.deleteGasStation(gasStationIds);
-        return ResponseEntity.ok().body("주유소 정보 삭제 완료");
+        return ResponseEntity.ok().body(DELETE_GAS_STATION_MSG);
     }
 
     /**
@@ -81,7 +82,7 @@ public class AdminAPI {
     @PutMapping("/clean")
     public ResponseEntity updateCleanCarType(@RequestBody AdmUpdateCleanCarTypeDTO admUpdateCleanCarTypeDTO) {
         gasStationService.updateCleanCarType(admUpdateCleanCarTypeDTO);
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(UPDATE_CLEAN_CAR_tYPE_MSG);
     }
 
     /**
@@ -90,7 +91,7 @@ public class AdminAPI {
     @DeleteMapping("/clean/{cleanCarTypeId}")
     public ResponseEntity deleteCleanCarType(@PathVariable("cleanCarTypeId") Long cleanCarTypeId) {
         gasStationService.deleteCleanCarType(cleanCarTypeId);
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(DELETE_CLEAN_CAR_tYPE_MSG);
     }
 
     /**

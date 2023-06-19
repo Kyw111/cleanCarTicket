@@ -16,6 +16,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -73,7 +74,7 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
                     .gasStationName(saveGasStationDTO.gasStationName())
                     .gasStationAddress(roadAddress)
                     .cleanCarFreePeriod((saveGasStationDTO.cleanCarFreePeriod() == null) ?
-                            0 :saveGasStationDTO.cleanCarFreePeriod())
+                            0 : saveGasStationDTO.cleanCarFreePeriod())
                     .longX(x)
                     .latY(y)
                     .build();
@@ -93,6 +94,17 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
         return null;
     }
 
+    public String paringJsonData(String jsonData) throws ParseException {
+        JSONObject parse = (JSONObject) jsonParser.parse(jsonData);
+        JSONArray documents = (JSONArray) parse.get("documents");
+        JSONObject jsonObj = (JSONObject) documents.get(0);
+        JSONObject address = (JSONObject) jsonObj.get("address");
+        String x = address.get("x").toString();
+        String y = address.get("y").toString();
+        String roadAddress = address.get("address_name").toString();
+        return roadAddress;
+    }
+
     /**
      * 관리자 - 주유소 정보 수정
      * @param updateGasStationDTO
@@ -103,9 +115,10 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
         GasStation gasStation = admGasStationRepository.findById(updateGasStationDTO.gasStationId())
                 .orElseThrow(() -> new IllegalArgumentException(NO_GAS_STATION_MSG));
 
+        String kakaoMapJsonData = getXYByKaKaoMapAPI(updateGasStationDTO.gasStationAddress());
+        
         try {
-            String xyByKaKaoMapAPI = getXYByKaKaoMapAPI(updateGasStationDTO.gasStationAddress());
-            JSONObject parse = (JSONObject) jsonParser.parse(xyByKaKaoMapAPI);
+            JSONObject parse = (JSONObject) jsonParser.parse(kakaoMapJsonData);
             JSONArray documents = (JSONArray) parse.get("documents");
             JSONObject jsonObj = (JSONObject) documents.get(0);
             JSONObject address = (JSONObject) jsonObj.get("address");

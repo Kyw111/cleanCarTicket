@@ -8,7 +8,6 @@ import com.cleanCar.freeTicket.admin.dto.pay.UpdateClientPayInfoDTO;
 import com.cleanCar.freeTicket.admin.repository.AdmGasStationRepository;
 import com.cleanCar.freeTicket.admin.repository.ClientPayInfoRepository;
 import com.cleanCar.freeTicket.admin.service.ClientPayInfoService;
-import com.cleanCar.freeTicket.utils.Constant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.cleanCar.freeTicket.utils.Constant.NO_CLIENT_PAY_INFO_MSG;
 import static com.cleanCar.freeTicket.utils.Constant.NO_GAS_STATION_MSG;
 
+/**
+ * 고객 주유 정보 서비스 impl
+ */
 @Service
 @RequiredArgsConstructor
 public class ClientPayInfoServiceImpl implements ClientPayInfoService {

@@ -18,12 +18,18 @@ import java.util.List;
 
 import static com.cleanCar.freeTicket.admin.domain.QCleanCarType.cleanCarType;
 
+/**
+ * 관리자 - 세차 종류 및 가격 정보 repository Impl
+ */
 @Repository
 @RequiredArgsConstructor
 public class AdmCleanCarTypeRepositoryCustomImpl implements AdmCleanCarTypeRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    /**
+     * 세차 종류 및 가격 정보 목록 조회
+     */
     @Transactional(readOnly = true)
     @Override
     public Page<CleanCarTypeListResponseDTO> cleanCarTypeList(Pageable pageable, Long gasStationId) {
@@ -47,7 +53,10 @@ public class AdmCleanCarTypeRepositoryCustomImpl implements AdmCleanCarTypeRepos
         return PageableExecutionUtils.getPage(list, pageable, () -> list.size());
     }
 
-    @Transactional(readOnly = true)
+    /**
+     * 세차 종류 및 가격 정보 삭제
+     */
+    @Transactional
     @Override
     public void deleteCleanCarType(Long cleanCarTypeId) {
         queryFactory.update(cleanCarType)
@@ -57,6 +66,9 @@ public class AdmCleanCarTypeRepositoryCustomImpl implements AdmCleanCarTypeRepos
                 .execute();
     }
 
+    /**
+     * 세차 종류 및 가격 정보 상세 조회
+     */
     @Transactional(readOnly = true)
     @Override
     public AdmSaveCleanCarTypeResponse detailCleanCarType(Long cleanCarTypeId) {

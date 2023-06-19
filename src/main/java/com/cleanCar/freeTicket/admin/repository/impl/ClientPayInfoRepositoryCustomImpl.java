@@ -18,12 +18,18 @@ import java.util.List;
 
 import static com.cleanCar.freeTicket.admin.domain.QClientPayInfo.clientPayInfo;
 
+/**
+ * 고객 주유 정보 repository Impl
+ */
 @Repository
 @RequiredArgsConstructor
 public class ClientPayInfoRepositoryCustomImpl implements ClientPayInfoRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    /**
+     * 고객 주유 정보 목록
+     */
     @Transactional(readOnly = true)
     @Override
     public Page<ClientPayInfoListDTO> clientPayInfoList(Long gasStationId, String carNumber, Pageable pageable) {

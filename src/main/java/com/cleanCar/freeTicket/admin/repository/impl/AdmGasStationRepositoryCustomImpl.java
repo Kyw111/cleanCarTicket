@@ -18,12 +18,18 @@ import java.util.List;
 
 import static com.cleanCar.freeTicket.admin.domain.QGasStation.gasStation;
 
+/**
+ * 관리자 - 주유소 정보 repository Impl
+ */
 @Repository
 @RequiredArgsConstructor
 public class AdmGasStationRepositoryCustomImpl implements AdmGasStationRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    /**
+     * 주유소 삭제
+     */
     @Transactional
     @Override
     public void deleteGasStations(List<Long> gasStationIds) {
@@ -34,6 +40,11 @@ public class AdmGasStationRepositoryCustomImpl implements AdmGasStationRepositor
                 .execute();
     }
 
+    /**
+     * 주유소 상세 조회
+     * @param gasStationId
+     * @return
+     */
     @Transactional(readOnly = true)
     @Override
     public GasStationDetailResponseDTO detailGasStation(Long gasStationId) {
@@ -53,6 +64,9 @@ public class AdmGasStationRepositoryCustomImpl implements AdmGasStationRepositor
                 .fetchOne();
     }
 
+    /**
+     * 주유소 목록 조회
+     */
     @Transactional(readOnly = true)
     @Override
     public Page<GasStationListResponseDTO> gasStationList(Pageable pageable) {
