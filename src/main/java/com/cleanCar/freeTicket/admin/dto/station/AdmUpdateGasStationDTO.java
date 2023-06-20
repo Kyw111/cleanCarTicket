@@ -7,7 +7,7 @@ public record AdmUpdateGasStationDTO(
         Long gasStationId,
         String gasStationName,
         String gasStationAddress,
-        Integer cleanCarFreePeriod
+        int cleanCarFreePeriod
 
 ) {
 }
