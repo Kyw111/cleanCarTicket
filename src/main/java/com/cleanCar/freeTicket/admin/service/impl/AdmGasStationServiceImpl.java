@@ -16,7 +16,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -85,8 +84,7 @@ public class AdmGasStationServiceImpl implements AdmGasStationService {
         GasStation gasStation = GasStation.builder()
                 .gasStationName(saveGasStationDTO.gasStationName())
                 .gasStationAddress(roadAddress)
-                .cleanCarFreePeriod((saveGasStationDTO.cleanCarFreePeriod() == null) ?
-                        0 : saveGasStationDTO.cleanCarFreePeriod())
+                .cleanCarFreePeriod(saveGasStationDTO.cleanCarFreePeriod())
                 .longX(x)
                 .latY(y)
                 .build();

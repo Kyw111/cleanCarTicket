@@ -7,7 +7,7 @@ public record AdmSaveGasStationDTO(
 
         String gasStationName,
         String gasStationAddress,
-        Integer cleanCarFreePeriod
+        int cleanCarFreePeriod
 
 ) {
 }
